@@ -126,7 +126,9 @@ smoketest-no-avr:
 release: build/tinygo gen-device
 	@mkdir -p build/release/tinygo/bin
 	@mkdir -p build/release/tinygo/lib/clang/include
-	@mkdir -p build/release/tinygo/lib/CMSIS/CMSIS
+	@mkdir -p build/release/tinygo/lib/CMSIS_5/CMSIS/Core
+	@mkdir -p build/release/tinygo/lib/CMSIS_5/CMSIS/Core_A
+	@mkdir -p build/release/tinygo/lib/CMSIS_5/CMSIS/DSP
 	@mkdir -p build/release/tinygo/lib/compiler-rt/lib
 	@mkdir -p build/release/tinygo/lib/nrfx
 	@mkdir -p build/release/tinygo/pkg/armv6m-none-eabi
@@ -135,8 +137,10 @@ release: build/tinygo gen-device
 	@echo copying source files
 	@cp -p  build/tinygo                 build/release/tinygo/bin
 	@cp -p $(abspath $(CLANG_SRC))/lib/Headers/*.h build/release/tinygo/lib/clang/include
-	@cp -rp lib/CMSIS/CMSIS/Include      build/release/tinygo/lib/CMSIS/CMSIS
-	@cp -rp lib/CMSIS/README.md          build/release/tinygo/lib/CMSIS
+	@cp -rp lib/CMSIS_5/CMSIS/Core/Include   build/release/tinygo/lib/CMSIS_5/CMSIS/Core
+	@cp -rp lib/CMSIS_5/CMSIS/Core_A/Include build/release/tinygo/lib/CMSIS_5/CMSIS/Core_A
+	@cp -rp lib/CMSIS_5/CMSIS/DSP/Include    build/release/tinygo/lib/CMSIS_5/CMSIS/DSP
+	@cp -rp lib/CMSIS_5/README.md            build/release/tinygo/lib/CMSIS_5
 	@cp -rp lib/compiler-rt/lib/builtins build/release/tinygo/lib/compiler-rt/lib
 	@cp -rp lib/compiler-rt/LICENSE.TXT  build/release/tinygo/lib/compiler-rt
 	@cp -rp lib/compiler-rt/README.txt   build/release/tinygo/lib/compiler-rt

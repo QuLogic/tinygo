@@ -14,3 +14,6 @@
 	path = lib/compiler-rt
 	url = https://github.com/llvm-mirror/compiler-rt.git
 	branch = release_80
+[submodule "lib/CMSIS_5"]
+	path = lib/CMSIS_5
+	url = https://github.com/ARM-software/CMSIS_5.git
