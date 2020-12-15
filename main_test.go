@@ -101,10 +101,6 @@ func TestCompiler(t *testing.T) {
 				runPlatTests("wasm", matches, t)
 			})
 		}
-
-		t.Run("WASI", func(t *testing.T) {
-			runPlatTests("wasi", matches, t)
-		})
 	}
 }
 
