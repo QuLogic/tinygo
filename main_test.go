@@ -188,22 +188,6 @@ func TestBuild(t *testing.T) {
 				runTest("gc.go", optionsBoehm, t, nil, nil)
 			})
 		})
-		t.Run("WASIp1", func(t *testing.T) {
-			t.Parallel()
-			runPlatTests(optionsFromTarget("wasip1", sema), tests, t)
-
-			// Test with -gc=boehm.
-			t.Run("gc.go-boehm", func(t *testing.T) {
-				t.Parallel()
-				optionsBoehm := optionsFromTarget("wasip1", sema)
-				optionsBoehm.GC = "boehm"
-				runTest("gc.go", optionsBoehm, t, nil, nil)
-			})
-		})
-		t.Run("WASIp2", func(t *testing.T) {
-			t.Parallel()
-			runPlatTests(optionsFromTarget("wasip2", sema), tests, t)
-		})
 	}
 
 	if runtime.GOOS == "linux" {
@@ -921,7 +905,6 @@ func TestTest(t *testing.T) {
 
 			// Node/Wasmtime
 			targ{"WASM", optionsFromTarget("wasm", sema)},
-			targ{"WASI", optionsFromTarget("wasip1", sema)},
 		)
 	}
 	for _, targ := range targs {
