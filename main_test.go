@@ -78,15 +78,24 @@ func TestCompiler(t *testing.T) {
 	}
 
 	if runtime.GOOS == "linux" {
-		t.Run("X86Linux", func(t *testing.T) {
-			runPlatTests("i386--linux-gnu", matches, t)
-		})
-		t.Run("ARMLinux", func(t *testing.T) {
-			runPlatTests("arm--linux-gnueabihf", matches, t)
-		})
-		t.Run("ARM64Linux", func(t *testing.T) {
-			runPlatTests("aarch64--linux-gnu", matches, t)
-		})
+		switch runtime.GOARCH {
+		case "386":
+			t.Run("X86Linux", func(t *testing.T) {
+				runPlatTests("i386--linux-gnu", matches, t)
+			})
+		case "amd64":
+			t.Run("AMD64Linux", func(t *testing.T) {
+				runPlatTests("amd64--linux-gnu", matches, t)
+			})
+		case "arm":
+			t.Run("ARMLinux", func(t *testing.T) {
+				runPlatTests("arm--linux-gnueabihf", matches, t)
+			})
+		case "arm64":
+			t.Run("ARM64Linux", func(t *testing.T) {
+				runPlatTests("aarch64--linux-gnu", matches, t)
+			})
+		}
 		goVersion, err := goenv.GorootVersionString(goenv.Get("GOROOT"))
 		if err != nil {
 			t.Error("could not get Go version:", err)
