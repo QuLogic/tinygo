@@ -3,12 +3,10 @@ package wasm
 import (
 	"context"
 	"errors"
-	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
+	"net/http/httptest"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -19,29 +17,6 @@ import (
 	"github.com/chromedp/cdproto/runtime"
 	"github.com/chromedp/chromedp"
 )
-
-var addr = flag.String("addr", ":8826", "Host:port to listen on for wasm test server")
-
-var wasmTmpDir string // set in TestMain to a temp directory for build output
-
-func TestMain(m *testing.M) {
-	flag.Parse()
-
-	os.Exit(func() int {
-
-		var err error
-		wasmTmpDir, err = ioutil.TempDir("", "wasm_test")
-		if err != nil {
-			log.Fatalf("unable to create temp dir: %v", err)
-		}
-		defer os.RemoveAll(wasmTmpDir) // cleanup even on panic and before os.Exit
-
-		startServer(wasmTmpDir)
-
-		return m.Run()
-	}())
-
-}
 
 func run(cmdline string) error {
 	args := strings.Fields(cmdline)
@@ -70,8 +45,9 @@ func chromectx(timeout time.Duration) (context.Context, context.CancelFunc) {
 	return ctx, cancel
 }
 
-func startServer(tmpDir string) {
+func startServer(t *testing.T) (tmpDir string, server *httptest.Server) {
 
+	tmpDir = t.TempDir()
 	fsh := http.FileServer(http.Dir(tmpDir))
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -140,11 +116,10 @@ if (wasmSupported) {
 		fsh.ServeHTTP(w, r)
 	})
 
-	log.Printf("Starting server at %q for dir: %s", *addr, tmpDir)
-	go func() {
-		log.Fatal(http.ListenAndServe(*addr, h))
-	}()
+	server = httptest.NewServer(h)
+	log.Printf("Started server at %q for dir: %s", server.URL, tmpDir)
 
+	return tmpDir, server
 }
 
 // waitLog blocks until the log output equals the text provided (ignoring whitespace before and after)
