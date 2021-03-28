@@ -371,6 +371,12 @@ jobs:
     steps:
       - test-linux:
           llvm: "11"
+  test-llvm12-go116:
+    docker:
+      - image: circleci/golang:1.16-buster
+    steps:
+      - test-linux:
+          llvm: "12"
   assert-test-linux:
     docker:
       - image: circleci/golang:1.14-stretch
@@ -396,6 +402,7 @@ workflows:
       - test-llvm10-go114
       - test-llvm11-go115
       - test-llvm11-go116
+      - test-llvm12-go116
       - build-linux
       - build-macos
       - assert-test-linux

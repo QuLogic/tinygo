@@ -14,3 +14,5 @@ require (
 	golang.org/x/tools v0.0.0-20200216192241-b320d3a0f5a2
 	tinygo.org/x/go-llvm v0.0.0-20210325115028-e7b85195e81c
 )
+
+replace tinygo.org/x/go-llvm => github.com/QuLogic/go-llvm v0.0.0-20210329004218-dfb0f6f2f7e0
