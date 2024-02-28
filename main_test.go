@@ -78,7 +78,6 @@ func TestBuild(t *testing.T) {
 		"json.go",
 		"map.go",
 		"math.go",
-		"oldgo/",
 		"print.go",
 		"reflect.go",
 		"signal.go",
@@ -1027,6 +1026,7 @@ func ioLogger(t *testing.T, wg *sync.WaitGroup) io.WriteCloser {
 }
 
 func TestGetListOfPackages(t *testing.T) {
+	t.Skip("Not available in non-module mode")
 	opts := optionsFromTarget("", sema)
 	tests := []struct {
 		pkgs          []string

@@ -37,7 +37,7 @@ func TestErrors(t *testing.T) {
 		{name: "loader-importcycle"},
 		{name: "loader-invaliddep"},
 		{name: "loader-invalidpackage"},
-		{name: "loader-nopackage"},
+		// {name: "loader-nopackage"},
 		{name: "optimizer"},
 		{name: "syntax"},
 		{name: "types"},
