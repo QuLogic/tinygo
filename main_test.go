@@ -192,7 +192,10 @@ func TestBuild(t *testing.T) {
 	if runtime.GOOS == "linux" {
 		for name, osArch := range supportedLinuxArches {
 			options := optionsFromOSARCH(osArch, sema)
-			if options.GOARCH != runtime.GOARCH { // Native architecture already run above.
+			if options.GOARCH == "386" && runtime.GOARCH == "arm64" {
+				// This is currently broken running in qemu.
+				// https://github.com/tinygo-org/tinygo/issues/4969
+			} else if options.GOARCH != runtime.GOARCH { // Native architecture already run above.
 				t.Run(name, func(t *testing.T) {
 					runPlatTests(options, tests, t)
 				})
@@ -891,7 +894,10 @@ func TestTest(t *testing.T) {
 		if runtime.GOOS == "linux" {
 			for name, osArch := range supportedLinuxArches {
 				options := optionsFromOSARCH(osArch, sema)
-				if options.GOARCH != runtime.GOARCH { // Native architecture already run above.
+				if options.GOARCH == "386" && runtime.GOARCH == "arm64" {
+					// This is currently broken running in qemu.
+					// https://github.com/tinygo-org/tinygo/issues/4969
+				} else if options.GOARCH != runtime.GOARCH { // Native architecture already run above.
 					targs = append(targs, targ{name, options})
 				}
 			}
